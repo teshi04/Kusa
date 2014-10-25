@@ -8,6 +8,6 @@
         android:orderInCategory="100"
         android:icon="@drawable/ic_add_black"
         app:showAsAction="ifRoom"
-        android:title="あど" />
+        android:title="@string/action_add_kusa" />
 
 </menu>
