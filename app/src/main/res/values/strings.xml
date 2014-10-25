@@ -8,5 +8,6 @@
     <string name="url_http">http</string>
     <string name="url_path">/v1/1024x1024.png</string>
     <string name="url_authority">inmou.herokuapp.com</string>
+    <string name="button_create_kusa">草を作成</string>
 
 </resources>

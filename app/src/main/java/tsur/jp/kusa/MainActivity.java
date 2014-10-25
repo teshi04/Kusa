@@ -1,6 +1,6 @@
 package tsur.jp.kusa;
 
-import android.app.Activity;
+import android.app.DialogFragment;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
@@ -15,7 +15,7 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 
 
-public class MainActivity extends ActionBarActivity {
+public class MainActivity extends ActionBarActivity implements MainActivityListener{
 
     @InjectView(R.id.kusa_image)
     ImageView mKusaImage;
@@ -30,21 +30,22 @@ public class MainActivity extends ActionBarActivity {
         if (toolbar != null) {
             setSupportActionBar(toolbar);
         }
-
-        getKusa();
     }
 
-    private void getKusa() {
+    private void getKusa(String amount, String length, String color) {
         Uri.Builder builder = new Uri.Builder();
         builder.scheme(getString(R.string.url_http));
         builder.authority(getString(R.string.url_authority));
         builder.path(getString(R.string.url_path));
-        builder.appendQueryParameter("color", "green");
+        builder.appendQueryParameter("amount", amount);
+        builder.appendQueryParameter("length", length);
+        builder.appendQueryParameter("color", color);
 
         final Picasso picasso = new Picasso.Builder(this)
                 .build();
-        picasso.setIndicatorsEnabled(true);
-        picasso.load(builder.build()).into(mKusaImage);
+//        picasso.setIndicatorsEnabled(true);
+        picasso.load(builder.build())
+                .into(mKusaImage);
     }
 
     @Override
@@ -62,10 +63,22 @@ public class MainActivity extends ActionBarActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.action_add_kusa) {
+            DialogFragment dialogFragment = EditKusaFragment.newInstance();
+            dialogFragment.show(getFragmentManager(), "fragment");
             return true;
         }
 
         return super.onOptionsItemSelected(item);
     }
+
+    @Override
+    public void createdKusa(String amount, String length, String color) {
+        getKusa(amount, length, color);
+    }
 }
+
+interface MainActivityListener {
+    public void createdKusa(String amount, String length, String color);
+}
+
